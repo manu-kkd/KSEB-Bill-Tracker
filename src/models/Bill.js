@@ -4,8 +4,8 @@ function normalizeBill(row) {
   return {
     id: row.id,
     billingDate: row.billing_date,
-    unitsConsumed: row.units_consumed,
-    amountPaid: row.amount_paid,
+    unitsConsumed: Number(row.units_consumed),
+    amountPaid: Number(row.amount_paid),
     notes: row.notes,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
