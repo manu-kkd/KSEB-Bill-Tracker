@@ -1,4 +1,4 @@
-import pool from '@/lib/postgres';
+import pool, { ensureBillsTable } from '@/lib/postgres';
 
 function normalizeBill(row) {
   return {
@@ -13,6 +13,8 @@ function normalizeBill(row) {
 }
 
 export async function getBills() {
+  await ensureBillsTable();
+
   const result = await pool.query(
     `SELECT id, billing_date, units_consumed, amount_paid, notes, created_at, updated_at FROM bills ORDER BY billing_date DESC`
   );
@@ -20,6 +22,8 @@ export async function getBills() {
 }
 
 export async function createBill({ billingDate, unitsConsumed, amountPaid, notes = '' }) {
+  await ensureBillsTable();
+
   if (!billingDate || unitsConsumed == null || amountPaid == null) {
     throw new Error('billingDate, unitsConsumed, and amountPaid are required');
   }
